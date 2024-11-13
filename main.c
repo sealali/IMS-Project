@@ -6,6 +6,7 @@
 typedef struct {
     char name[15];
     int code;
+    int quantity;
     double rate;
 
 } product;
@@ -14,47 +15,70 @@ FILE *f;
 int i,j,k;
 
 void add();
+void readfile();
 
 int main() {
 	//f=fopen("file.txt","r")
-    printf("\n===============================INVENTORY===============================\n");
-    do {
-        printf("\n\n\n\n\t\t\t[1]Add an item\n");
-        printf("\n\t\t\t[0]Exit\n\t\t\t ");
+        do {
+    	printf("\n===============================INVENTORY===============================\n");
+        printf("\n\n\n\n\t\t\t 1) Add an item\n");
+        printf("\t\t\t 2) See Inventory\n");
+        printf("\t\t\t 0) Exit\n\t\t\t ");
         scanf("%d",&j);
         switch(j) {
             case 1:
                 add();
                 break;
+            case 2:
+            	readfile();
+            	break;
             default:
                 if(j != 0) {
                     printf("Enter correct number\n");
                     printf("\nPress any key to try again.");
-                    getch();  // Wait for key press
+                    getch();  
                 }
                 break;
         }
-        system("cls");  // Clear screen for next menu
-    } while(j != 0);  // Exit loop if user selects '0'
+        system("cls");  
+    } while(j != 0);  
     
-    printf("\n\n--------------------------------GOOD BYE!!------------------------------------\n\n");
+    printf("\n\n--------------------------------THANKS!!------------------------------------\n\n");
     return 0;
 }
 void add(){
 	system("cls");
+	printf("**ITEM ADDITION** \n");
 	f=fopen("file.txt","a+");
-	printf("enter name : ");
+	printf(" Enter name : ");
 	getchar();
 	fgets(item.name,sizeof (item.name),stdin);
 	item.name[strcspn(item.name, "\n")] = '\0';
 	printf("enter code : ");
 	scanf("%d",&item.code);
+	printf("enter quantity : ");
+	scanf("%d",&item.quantity);
 	printf("enter rate : ");
 	scanf("%lf",&item.rate);
-	fprintf(f,"%s %d %2f",item.name,item.code,item.rate);
+	fprintf(f, "%-10d | %-20s | %-8.2f | %-8d\n", item.code, item.name, item.rate, item.quantity);
 	printf("item added \nPress any key to continue . ");
 	getch();
 	fclose(f);
 	
 	
+}
+void readfile(){
+	char temp[500];
+	f=fopen("file.txt","r");
+	if (f == NULL){
+		printf("\t\t\t error opening file");
+	}
+	printf("CODE       | NAME                | RATE     | QUANTITY\n");
+    printf("----------------------------------------------------------\n");
+	while (fgets(temp,sizeof (temp),f)){
+		printf("%s\n",temp);
+	}
+	printf("Press any key to continue . ");
+	getch();
+	fclose(f);
 }
