@@ -40,14 +40,13 @@ void alertsettings() {
 	system("pause");
 
 }
-int createFile() {
+void createFile() {
 	FILE *f = fopen("PROJECT.bin","ab");
 	if(f==NULL) {
 		printf("ERROR: FILE NOT FOUND!");
-		return 1;
+		return;
 	}
 	fclose(f);
-return 0;
 }
 int authenticate() {
 	int u,v;
@@ -78,10 +77,7 @@ int authenticate() {
 	fflush(stdin);
 	if(pass[0] != '\0' && user[0] != '\0') {
 		if(!strcmp(user,"admin") && !strcmp(pass,"pass")) {
-			if(createFile()){
-				printf("ERROR: FILE NOT FOUND!");
-				return 0;
-			}
+		//	createFile();
 			system("cls");
 			system("color 0A");
 			printf("\nSUCCESSFUL :) ACCESS GRANTED...\n\n");
@@ -218,7 +214,7 @@ void add() {
 	}
 	product P = create();
 	product C;
-	if (P.category[0] != '\0' &&P.category[0] != ' ' && P.product_name[0] != '\0' && P.product_name[0] != ' '&& P.price > 0 && P.code >= 0 && P.quantity >= 0) {
+	if (P.category[0] != '\0' && P.product_name[0] != '\0' && P.price > 0 && P.code >= 0 && P.quantity >= 0) {
 
 		while(fread(&C, sizeof(product), 1, fptr)) {
 			if (C.code == P.code) {
@@ -1130,7 +1126,7 @@ int main() {
 				v=0;
 				printf("ENTER YOUR CHOICE:   ");
 				scanf("%d",&ch);
-				fflush(stdin);
+				getchar();
 				switch(ch) {
 					case 1: {
 						searchbyname();
